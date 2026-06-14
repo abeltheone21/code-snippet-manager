@@ -3,100 +3,90 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import model.Snippet;
+import databaseOperations.dataQR;
 
 public class detailpanel extends JPanel {
-
+    private dataQR data;
+    private Snippet currentSnippet;
     JLabel titleLabel;
     JLabel languageLabel;
     JLabel descriptionLabel;
     JCheckBox favorite;
-
     JPanel tagsPanel;
-
     JLabel createdLabel;
     JLabel updatedLabel;
     JLabel collectionLabel;
     JLabel languageInfoLabel;
-
-    codepanel codePanel;
-    public void displaySnippet(Snippet snippet) {
-       titleLabel.setText(snippet.getTitle());
+    public detailpanel(dataQR data) {
+        this.data=data;
+        initUI();
     }
 
-    public detailpanel() {
+
+
+    public void displaySnippet(Snippet snippet)
+    {
+        currentSnippet=snippet;
+       titleLabel.setText(snippet.getTitle());
+       languageLabel.setText(snippet.getLanguage());
+       descriptionLabel.setText(snippet.getDescription());
+       favorite.setSelected(snippet.isFavorite());
+
+    }
+
+    public void initUI()
+    {
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         setBackground(new Color(18,22,38));
 
         setBorder(
-                BorderFactory.createEmptyBorder(
-                        20,
-                        20,
-                        20,
-                        20
-                )
+                BorderFactory.createEmptyBorder(20,20,20,20 )
         );
 
-        // Title
+        //the title
 
-        titleLabel = new JLabel("Singleton Class");
+        titleLabel = new JLabel("Code title");
 
         titleLabel.setForeground(Color.WHITE);
 
-        titleLabel.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        24
-                )
-        );
+        titleLabel.setFont(new Font("Segoe UI",Font.BOLD,24));
 
+        //this section adds to database
         favorite = new JCheckBox("Favorite");
-
-        favorite.setBackground(
-                new Color(18,22,38)
-        );
-
+        favorite.setBackground(new Color(18,22,38));
         favorite.setForeground(Color.WHITE);
-
         favorite.setFocusable(false);
+        //action listener
+        favorite.addActionListener(e->{
+            if(currentSnippet!=null){
+                boolean isSelected=favorite.isSelected();
+                currentSnippet.setFavorite(isSelected);
+                data.updateFavorite(currentSnippet.getId(),isSelected);
+                System.out.println("favorite updated to"+isSelected);
+            }
+        });
 
-        favorite.setSelected(true);
 
-        JPanel titlePanel = new JPanel(
-                new BorderLayout()
+        JPanel titlePanel = new JPanel( new BorderLayout());
+
+        titlePanel.setBackground(new Color(18,22,38));
+
+        titlePanel.add(titleLabel, BorderLayout.WEST
         );
 
-        titlePanel.setBackground(
-                new Color(18,22,38)
-        );
-
-        titlePanel.add(
-                titleLabel,
-                BorderLayout.WEST
-        );
-
-        titlePanel.add(
-                favorite,
-                BorderLayout.EAST
-        );
-
+        titlePanel.add(favorite,  BorderLayout.EAST);
         add(titlePanel);
 
-
-        languageLabel = new JLabel("Java");
+        languageLabel = new JLabel("programming language ");
 
         languageLabel.setForeground(
                 new Color(120,140,255)
         );
 
         languageLabel.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        15
-                )
+                new Font("Segoe UI", Font.PLAIN,15)
         );
 
         add(languageLabel);
@@ -104,13 +94,11 @@ public class detailpanel extends JPanel {
         add(Box.createVerticalStrut(15));
 
         descriptionLabel = new JLabel(
-                "Thread-safe singleton implementation using double-checked locking."
+                "Code description"
         );
 
         descriptionLabel.setForeground(Color.LIGHT_GRAY);
-
         add(descriptionLabel);
-
         add(Box.createVerticalStrut(20));
 
         tagsPanel = new JPanel();
@@ -126,47 +114,19 @@ public class detailpanel extends JPanel {
         );
 
         tagsPanel.add(
-                new JLabel("design-pattern")
-        );
-
-        tagsPanel.add(
-                new JLabel("singleton")
-        );
-
-        tagsPanel.add(
-                new JLabel("java")
+                new JLabel("meta data about the code:")
         );
 
         add(tagsPanel);
+        add(Box.createVerticalStrut(10));
+        add(Box.createVerticalStrut(10));
 
-        add(Box.createVerticalStrut(20));
-
-
-        codePanel = new codepanel();
-
-        codePanel.setPreferredSize(
-                new Dimension(
-                        500,
-                        450
-
-                )
-        );
-
-        add(codePanel);
-
-        add(Box.createVerticalStrut(20));
-
-        // Information section
+        // information section
 
         JPanel infoPanel = new JPanel();
 
         infoPanel.setLayout(
-                new GridLayout(
-                        2,
-                        2,
-                        20,
-                        20
-                )
+                new GridLayout( 2, 2, 20, 20)
         );
 
         infoPanel.setBackground(
@@ -174,16 +134,16 @@ public class detailpanel extends JPanel {
         );
 
         createdLabel =
-                new JLabel("Created : May 12, 2024");
+                new JLabel("added date :");
 
         updatedLabel =
-                new JLabel("Updated : May 20, 2024");
+                new JLabel("last updated date :");
 
         languageInfoLabel =
-                new JLabel("Language : Java");
+                new JLabel("Language :");
 
         collectionLabel =
-                new JLabel("Collection : Design Patterns");
+                new JLabel("Collection :");
 
         createdLabel.setForeground(Color.WHITE);
         updatedLabel.setForeground(Color.WHITE);
@@ -199,4 +159,8 @@ public class detailpanel extends JPanel {
 
         add(infoPanel);
     }
+    public Snippet getCurrentSnippet() {
+        return currentSnippet;
+    }
+
 }
