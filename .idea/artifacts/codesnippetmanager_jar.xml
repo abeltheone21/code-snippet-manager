@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="codesnippetmanager:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/codesnippetmanager_jar</output-path>
+    <root id="archive" name="codesnippetmanager.jar">
+      <element id="module-output" name="codesnippetmanager" />
+      <element id="extracted-dir" path="D:/downloads/flatlaf-3.6.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/downloads/rsyntaxtextarea-3.6.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/downloads/postgresql-42.7.11.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
