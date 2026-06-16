@@ -300,23 +300,13 @@ git commit -m "Add amazing feature"
 
 ```bash
 git push origin feature/amazing-feature
-```
-
-5. Open a Pull Request
-
 ---
-
-## License
-
-This project is licensed under the MIT License.
-
-See the LICENSE file for details.
 
 ---
 
 ## Author
 
-**Abel Getaneh**
+**Abel gebrehiwot**
 
 GitHub: https://github.com/abeltheone21
 
