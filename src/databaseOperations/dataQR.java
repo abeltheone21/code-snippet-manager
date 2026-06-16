@@ -17,7 +17,7 @@ public class dataQR {
 
        Connection conn = connectionEstablish.getConnection();
 
-       String sql = "INSERT INTO snippets (title, language, code, description,favorite) VALUES (?, ?, ?, ?, ?)";
+       String sql = "INSERT INTO snippets (title, language, code, description, favorite, created_at, updated_at) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
        try {
            PreparedStatement pst = conn.prepareStatement(sql);
@@ -61,14 +61,15 @@ public class dataQR {
            PreparedStatement pst = conn.prepareStatement(sql);
            ResultSet rs=pst.executeQuery();
            while(rs.next()){
-               Snippet s= new Snippet(
+               Snippet s = new Snippet(
                        rs.getInt("id"),
                        rs.getString("title"),
                        rs.getString("language"),
                        rs.getString("code"),
                        rs.getString("description"),
-                       rs.getInt("favorite")==1
-
+                       rs.getInt("favorite") == 1,
+                       rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime() : null,
+                       rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime() : null
                );
                snippets.add(s);
 
@@ -97,7 +98,9 @@ public class dataQR {
                         rs.getString("language"),
                         rs.getString("code"),
                         rs.getString("description"),
-                        rs.getInt("favorite") == 1
+                        rs.getInt("favorite") == 1,
+                        rs.getTimestamp("created_at") != null ? rs.getTimestamp("created_at").toLocalDateTime() : null,
+                        rs.getTimestamp("updated_at") != null ? rs.getTimestamp("updated_at").toLocalDateTime() : null
                 );
                 snippets.add(s);
             }
@@ -109,7 +112,7 @@ public class dataQR {
     }
    public void updateSnippet(int id,String title,String language,String code,String description) {
        Connection conn = connectionEstablish.getConnection();
-       String sql="UPDATE snippets SET title=?, language=?, code=?, description=? WHERE id=?";
+       String sql="UPDATE snippets SET title=?, language=?, code=?, description=?, updated_at=CURRENT_TIMESTAMP WHERE id=?";
        try{
            PreparedStatement pst=conn.prepareStatement(sql);
            pst.setString(1, title);

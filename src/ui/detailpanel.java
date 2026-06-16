@@ -27,11 +27,15 @@ public class detailpanel extends JPanel {
     public void displaySnippet(Snippet snippet)
     {
         currentSnippet=snippet;
-       titleLabel.setText(snippet.getTitle());
-       languageLabel.setText(snippet.getLanguage());
-       descriptionLabel.setText(snippet.getDescription());
-       favorite.setSelected(snippet.isFavorite());
+        titleLabel.setText(snippet.getTitle());
+        languageLabel.setText(snippet.getLanguage());
+        descriptionLabel.setText(snippet.getDescription());
+        favorite.setSelected(snippet.isFavorite());
 
+        // Display the dates - ADD THESE LINES
+        createdLabel.setText("Created : " + snippet.getFormattedCreatedAt());
+        updatedLabel.setText("Updated : " + snippet.getFormattedUpdatedAt());
+        languageInfoLabel.setText("Language : " + snippet.getLanguage());
     }
 
     public void initUI()
@@ -143,7 +147,7 @@ public class detailpanel extends JPanel {
                 new JLabel("Language :");
 
         collectionLabel =
-                new JLabel("Collection :");
+                new JLabel(" ");
 
         createdLabel.setForeground(Color.WHITE);
         updatedLabel.setForeground(Color.WHITE);
